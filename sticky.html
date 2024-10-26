@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: aqua;
+        }
+        #app {
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Arrange notes in columns */
+            gap: 20px; /* Adjust gap between notes */
+            padding: 24px; 
+        }
+        .notes {
+            height: 200px;
+            width: 400px;
+            padding: 14px;
+            box-sizing: border-box;
+            border: none;
+            box-shadow: 0 0 7px rgba(0,0,0,0.15);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            resize: none;
+        }
+        .add_notes {
+            height: 200px;  
+            width: 400px; 
+            outline: none;
+            border: none;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 10px;
+            font-size: 100px; 
+            color: rgba(0,0,0,0.5);
+             display: flex;
+            align-items: center;
+            justify-content: center; 
+        }
+        .add_notes:hover {
+            background-color: rgba(0,0,0,0.2);
+        }
+        /* .button {
+            text-align: center;
+        } */
+    </style>
+</head>
+<body>
+   <div id="app">
+     <textarea class="notes">some sample text</textarea>
+    <textarea class="notes">some sample text</textarea>
+    <textarea class="notes">some sample text</textarea>
+    <textarea class="notes">some sample text</textarea>
+    <div class="button">
+        <button class="add_notes">+</button>
+    </div>
+   </div>
+   <script>
+      // Function to add a new sticky note
+      function addNote() {
+          // Create a new textarea element
+          const newNote = document.createElement("textarea");
+          newNote.classList.add("notes");
+          newNote.placeholder = "New Note...";
+          
+          // Add an event listener for double-click to remove the note
+          newNote.addEventListener("dblclick", function() {
+              newNote.remove();
+          });
+
+          // Add the new note to the app container
+          document.getElementById("app").appendChild(newNote);
+      }
+
+      // Attach the addNote function to the "+" button click
+      document.querySelector(".add_notes").addEventListener("click", addNote);
+   </script>
+</body>
+</html>

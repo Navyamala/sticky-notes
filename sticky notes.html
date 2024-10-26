@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="shortcut icon" type="image/png" href="notes.png" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
+*{
+  padding: 0;
+  margin: 0;
+}
+
+body{
+  position: relative;
+  background-color:  #c68c53a8;
+  font-family: 'Architects Daughter', cursive;
+}
+
+button{
+  padding: 8px;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 5px;
+  background: whitesmoke;
+  border: 1px solid lightgray;
+}
+
+button:hover{
+  color: white;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#modal{
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#inner_modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#inner_modal textarea{
+  width: 276px;
+  height: 276px;
+  padding: 25px;
+  outline: none;
+  resize: none;
+  font-size: 1.5rem;
+  font-family: inherit;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
+}
+
+#inner_modal i{
+  font-size: 1.4rem;
+  color: gray;
+  cursor: pointer;
+  margin-top: -285px;
+  margin-left: -35px;
+  transition: 1s ease-in-out;
+}
+
+#inner_modal i:hover{
+  color: lightgray;
+}
+
+.container{
+  width: 1280px;
+  margin: auto;
+}
+
+#header{
+  color: white;
+  padding: 0 20px;
+  min-height: 70px;
+  text-shadow: 1px 1px black;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fas{
+  color: #c2ff3d;
+}
+
+#all_notes{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}
+
+.note{
+  width:300px;
+  height: 300px;
+  transition: 2s;
+  cursor: pointer;
+  overflow-wrap: break-word;
+  box-shadow: 0px 10px 24px 0px rgba(0,0,0,0.75);
+}
+
+.note h1{
+  font-size: 1.5rem;
+}
+.details {
+  margin-top: 25px;
+  padding: 0 15px;
+  font-size: 1.5rem;
+}
+
+.details i{
+  color: whitesmoke;
+  cursor: pointer;
+  text-shadow: 1px 1px #BBB;
+}
+
+
+  </style>
+  <title>Sticky Notes</title>
+</head>
+<body>
+
+  <div id="modal">
+    <div id="inner_modal">
+      <textarea placeholder="Note..." id="user_input" maxlength="160"></textarea>
+      <i class="far fa-times-circle" id="hide"></i>
+    </div>
+  </div>
+  
+  <main>
+
+    <header>
+      <div class="container">
+        <div id="header">
+          <h1><i class="fas fa-sticky-note"></i> Sticky Notes</h1>
+          <button id="add_note">Add Note</button>
+        </div>
+      </div>
+    </header>
+    
+    <section>
+      <div class="container">
+        <div id="all_notes"></div>
+      </div>
+    </section>
+
+  </main>
+  
+  <script>
+var random_margin = ["-5px", "1px", "5px", "10px", "7px"];
+var random_colors = ["#c2ff3d","#ff3de8","#3dc2ff","#04e022","#bc83e6","#ebb328"];
+var random_degree = ["rotate(3deg)", "rotate(1deg)", "rotate(-1deg)", "rotate(-3deg)", "rotate(-5deg)", "rotate(-8deg)"];
+var index = 0;
+
+window.onload = document.querySelector("#user_input").select();
+
+document.querySelector("#add_note").addEventListener("click", () => {
+  document.querySelector("#modal").style.display = "block";
+});
+
+document.querySelector("#hide").addEventListener("click", () => {
+  document.querySelector("#modal").style.display = "none";
+});
+
+document.querySelector("#user_input").addEventListener('keydown', (event) => {
+  if(event.key === 'Enter'){
+    const text = document.querySelector("#user_input");
+    createStickyNote(text.value);
+  }
+});
+
+createStickyNote = (text) => {
+  let note = document.createElement("div");
+  let details = document.createElement("div");
+  let noteText = document.createElement("h1");
+
+  note.className = "note";
+  details.className = "details";
+  noteText.textContent = text;
+
+  details.appendChild(noteText);
+  note.appendChild(details);
+
+  if(index > random_colors.length - 1)
+    index = 0;
+
+  note.setAttribute("style", `margin:${random_margin[Math.floor(Math.random() * random_margin.length)]}; background-color:${random_colors[index++]}; transform:${random_degree[Math.floor(Math.random() * random_degree.length)]}`);
+
+  note.addEventListener("dblclick", () => {
+    note.remove();
+  })
+
+  document.querySelector("#all_notes").appendChild(note);
+}
+
+
+  </script>
+</body>
+</html>
